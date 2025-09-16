@@ -1,3 +1,6 @@
+print(">>> Running from:", __file__)
+
+
 from fastapi import FastAPI
 
 catalog = {
@@ -8,16 +11,24 @@ catalog = {
     "wine": {
         "units": "bottles",
         "qty": 500
+    },
+    "beans": {
+        "units": "bags",
+        "qty": 500
     }
 }
 
 app = FastAPI(title="New Jersey API server") # This is the API server
 
 @app.get("/warehouse/{product}")
-def load_truck(product, order_qty):
+async def load_truck(product: str, order_qty: int):
     return {
         "product": product,
         "order_qty": order_qty,
         "units": catalog[product]["units"]
     }
 
+# the code to be used for the command line is as follows:
+# unicorn <fastapi python file name>:app --reload --host 0.0.0.0 --port 8000
+# The --reload flag is to ensure the webpage reloads everytime we change the code in the
+# fastapi python file.
