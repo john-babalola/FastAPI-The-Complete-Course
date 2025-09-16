@@ -22,10 +22,14 @@ app = FastAPI(title="New Jersey API server") # This is the API server
 
 @app.get("/warehouse/{product}")
 async def load_truck(product: str, order_qty: int):
+
+    catalog[product]["qty"] -= int(order_qty)
+
     return {
         "product": product,
         "order_qty": order_qty,
-        "units": catalog[product]["units"]
+        "units": catalog[product]["units"],
+        "remaining_qty": catalog[product]["qty"]
     }
 
 # the code to be used for the command line is as follows:
